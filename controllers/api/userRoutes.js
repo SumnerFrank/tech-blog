@@ -42,6 +42,20 @@ router.post('/', (req, res) => {
     });
 });
 
+// Deletes an existing user 
+router.delete('/:id', (req, res) => {
+    User.findOneAndDelete({
+
+    })
+    .then(dbUserData => {
+        if (!dbUserData) {
+            res.status(404).json({ message: 'User Not Found' });
+            return;
+        }
+    })
+    .catch(err => res.status(400).json(err));
+});
+
 // Logs user in
 router.post('/login', async (req, res) => {
     try {
