@@ -16,11 +16,35 @@ router.get('/', (req, res) => {
 // Gets individual user 
 router.get('/:id', (req, res) => {
     User.findOne({
+        attributes: {
+            exclude: ['password']
+        },
+        where: {
+            id: req.params.id
+        },
+        include: [
+            {
+                model: Post,
+                attributes: [
+                    'id',
+                    'post_title',
+                    'post_body'
 
+                ]
+            },
+            {
+                model: Comment,
+                attributes: [
+                    'id',
+                    'comment_body'
+                ]
+            }
+
+        ]
     })
     .then(dbUserData => {
         if(!dbUserData) {
-            res.status(404).json({ message: 'ID Not Found.' });
+            res.status(404).json({ message: 'User ID Not Found.' });
             return;
         } res.json(dbUserData);
     })
@@ -44,14 +68,15 @@ router.post('/', (req, res) => {
 
 // Deletes an existing user 
 router.delete('/:id', (req, res) => {
-    User.findOneAndDelete({
-
-    })
+    User.findOneAndDelete({ _id: params.id })
     .then(dbUserData => {
         if (!dbUserData) {
             res.status(404).json({ message: 'User Not Found' });
             return;
         }
+    })
+    .then(() => {
+        res.json({ message:'User Successfully Deleted' })
     })
     .catch(err => res.status(400).json(err));
 });
@@ -99,3 +124,6 @@ router.post('/logout', (req, res) => {
       res.status(404).end();
     }
   });
+
+
+  module.exports = router;
