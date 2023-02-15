@@ -5,8 +5,11 @@ const { Comment, Post, User } = require('../../models');
 // Gets all users
 router.get('/', (req, res) => {
     User.findAll({
+        attributes: {
+            exclude: ['password']
+        }
     })
-    .then(deUserData => res.json(dbUserData))
+    .then(dbUserData => res.json(dbUserData))
     .catch(err => {
         console.log(err);
         res.status(500).json(err);
@@ -57,7 +60,9 @@ router.get('/:id', (req, res) => {
 // Creates a new user 
 router.post('/', (req, res) => {
     User.create({
-
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password
     })
     .then(dbUserData)
     .catch(err => {
@@ -104,6 +109,7 @@ router.post('/login', async (req, res) => {
   
       req.session.save(() => {
         req.session.user_id = userData.id;
+        req.session.name = dbUserData.name;
         req.session.logged_in = true;
         
         res.json({ user: userData, message: 'You are now logged in!' });
