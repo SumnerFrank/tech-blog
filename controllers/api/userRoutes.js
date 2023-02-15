@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { useInflection } = require('sequelize');
+const withAuth = require('../utils/auth');
 const { Comment, Post, User } = require('../../models');
 
 // Gets all users
