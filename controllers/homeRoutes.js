@@ -48,4 +48,10 @@ router.get('/login', (req, res) => {
         return;
     }
     res.render('login');
+});
+
+router.get('/signup', (req, res) => {
+    res.render('signup');
 })
+
+module.export = router;
