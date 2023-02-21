@@ -18,7 +18,7 @@ Comment.init(
             unique: true
           },
           post_id: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false, 
             references: {
                 model: 'post',
@@ -35,4 +35,4 @@ Comment.init(
     }
 )
 
-module.exports = Comment;
+module.exports = Comment; 

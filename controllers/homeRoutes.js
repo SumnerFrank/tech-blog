@@ -9,29 +9,29 @@ router.get('/', (req, res) => {
             'post_body',
             'user_id'
         ], 
-        include: [
-            {
-                model: Comment,
-                attributes: [
-                    'id',
-                    'comment_body',
-                    'post_id',
-                    'user_id',
-                ],
-                include: {
-                    model: User,
-                    attrubutes: ['name']
-                },
-            },
-            {
-                model: User,
-                attribute: ['name']
-            }
-        ]
+        // include: [
+        //     {
+        //         model: Comment,
+        //         attributes: [
+        //             'id',
+        //             'comment_body',
+        //             'post_id',
+        //             'user_id',
+        //         ],
+        //         include: {
+        //             model: User,
+        //             attrubutes: ['name']
+        //         },
+        //     },
+        //     {
+        //         model: User,
+        //         attribute: ['name']
+        //     }
+        // ]
     })
     .then(dbPostData => {
         const posts = dbPostData.map(post => post.get({ plain: true }));
-        res.render('homepage', {
+        res.render('example', {
             posts, 
             loggedIn: req.session.loggedIn
         });

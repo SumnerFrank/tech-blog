@@ -25,25 +25,25 @@ router.get('/:id', (req, res) => {
         where: {
             id: req.params.id
         },
-        include: [
-            {
-                model: Post,
-                attributes: [
-                    'id',
-                    'post_title',
-                    'post_body'
+        // include: [
+        //     {
+        //         model: Post,
+        //         attributes: [
+        //             'id',
+        //             'post_title',
+        //             'post_body'
 
-                ]
-            },
-            {
-                model: Comment,
-                attributes: [
-                    'id',
-                    'comment_body'
-                ]
-            }
+        //         ]
+        //     },
+        //     {
+        //         model: Comment,
+        //         attributes: [
+        //             'id',
+        //             'comment_body'
+        //         ]
+        //     }
 
-        ]
+        // ]
     })
     .then(dbUserData => {
         if(!dbUserData) {
@@ -64,7 +64,9 @@ router.post('/', (req, res) => {
         email: req.body.email,
         password: req.body.password
     })
-    .then(dbUserData)
+    .then(dbUserData => {
+        res.json(dbUserData)
+    })
     .catch(err => {
         console.log(err);
         res.status(500).json(err);
@@ -73,7 +75,7 @@ router.post('/', (req, res) => {
 
 // Deletes an existing user 
 router.delete('/:id', (req, res) => {
-    User.findOneAndDelete({ _id: params.id })
+    User.destroy({ where: {id: req.params.id} })
     .then(dbUserData => {
         if (!dbUserData) {
             res.status(404).json({ message: 'User Not Found' });
