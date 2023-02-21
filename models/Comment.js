@@ -3,7 +3,7 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 class Comment extends Model {}
-
+ 
 Comment.init(
     {
         id: {
@@ -21,7 +21,7 @@ Comment.init(
             type: DataTypes.STRING,
             allowNull: false, 
             references: {
-                mode: 'post',
+                model: 'post',
                 key: 'id'
             }
           }
