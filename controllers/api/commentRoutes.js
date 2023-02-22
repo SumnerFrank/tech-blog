@@ -5,7 +5,12 @@ const { Comment, Post, User } = require('../../models');
 // gets all comments
 router.get('/', (req, res) => {
     Comment.findAll({
-
+        attributes: [
+            'id', 
+            'comment_body', 
+            'post_id', 
+            'user_id'
+        ]
     })
     .then(dbCommentData => res.json(dbCommentData))
     .catch(err => {
@@ -17,7 +22,12 @@ router.get('/', (req, res) => {
 // gets individual comments
 router.get('/:id', (req, res) => {
     Comment.findOne({
-
+        attributes: [
+            'id', 
+            'comment_body', 
+            'post_id', 
+            'user_id'
+        ]
     })
     .then(dbCommentData => {
         if (!dbCommentData) {
@@ -33,6 +43,7 @@ router.get('/:id', (req, res) => {
 
 // creates a new comment
 router.post('/', withAuth, (req, res) => {
+    if (req.session.loggedIn) {
     Comment.create({
         comment_body: req.body.comment_body,
         post_id: req.body.post_id,
@@ -43,6 +54,7 @@ router.post('/', withAuth, (req, res) => {
         console.log(err);
         res.status(500).json(err);
     });
+    }
 });
 
 
