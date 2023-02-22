@@ -19,32 +19,36 @@ router.get('/', (req, res) => {
 // Gets individual user 
 router.get('/:id', (req, res) => {
     User.findOne({
-        attributes: {
-            exclude: ['password']
+      attributes: {
+          exclude: ['password']
+      },
+      where: {
+        id: req.params.id
+      },
+      include: [
+        {
+          model: Post,
+          attributes: [
+              'id',
+              'post_title',
+              'post_body',
+              'created_at'
+          ]
         },
-        where: {
-            id: req.params.id
-        },
-        // include: [
-        //     {
-        //         model: Post,
-        //         attributes: [
-        //             'id',
-        //             'post_title',
-        //             'post_body'
-
-        //         ]
-        //     },
-        //     {
-        //         model: Comment,
-        //         attributes: [
-        //             'id',
-        //             'comment_body'
-        //         ]
-        //     }
-
-        // ]
-    })
+        {
+          model: Comment,
+          attributes: [
+              'id',
+              'comment_body',
+              'created_at'
+          ],
+          include: {
+              model: Post,
+              attributes: ['post_title']
+          }
+        }
+      ]
+  })
     .then(dbUserData => {
         if(!dbUserData) {
             res.status(404).json({ message: 'User ID Not Found.' });
