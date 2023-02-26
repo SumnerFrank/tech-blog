@@ -9,7 +9,6 @@ router.get('/', (req, res) => {
             'id',
             'post_title',
             'post_body',
-            'created_at'
         ], 
         order: [['created_at', 'DESC']],
         include: [
@@ -20,7 +19,6 @@ router.get('/', (req, res) => {
                     'comment_body',
                     'post_id',
                     'user_id',
-                    'created_at'
                 ], 
                 include: {
                     mdoel: User,
@@ -46,8 +44,7 @@ router.get('/:id', (req, res) => {
         attributes: [
             'id',
             'post_title',
-            'post_body',
-            'created_at'
+            'post_body'
         ],
         include: [
             {
@@ -57,7 +54,6 @@ router.get('/:id', (req, res) => {
                     'comment_body',
                     'post_id',
                     'user_id',
-                    'created_at'
                 ],
                 include: {
                     model: User,
