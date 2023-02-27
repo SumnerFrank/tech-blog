@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
                     'user_id',
                 ], 
                 include: {
-                    mdoel: User,
+                    model: User,
                     attributes: ['name']
                 }
 
@@ -78,8 +78,8 @@ router.get('/:id', (req, res) => {
 // creates a new post
 router.post('/', withAuth, (req, res) => {
     Post.create({
-        post_title: req.body.post_title,
-        post_body: req.body.post_body,
+        post_title: req.body.title,
+        post_body: req.body.description,
         user_id: req.session.user_id
     })
     .then(dbPostData => res.json(dbPostData))

@@ -35,6 +35,11 @@ User.init(
             validate: {
               len: [8],
             },
+          },
+          created_at: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
           }
     }, 
     {
