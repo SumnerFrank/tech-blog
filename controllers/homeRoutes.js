@@ -16,17 +16,8 @@ router.get('/', (req, res) => {
                     'id',
                     'comment_body',
                     'post_id',
-                    'user_id',
                 ],
-                include: {
-                    model: User,
-                    attrubutes: ['name']
-                }
             },
-            {
-                model: User,
-                attribute: ['name']
-            }
         ]
     })
     .then(dbPostData => {
@@ -50,8 +41,14 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 
-router.get('/profile', (req, res) => {
-    res.render('profile');
+router.get('/profile/:id', async (req, res) => {
+    const usersPosts = await Post.findAll({
+        where: { user_id: (req.params.id) }
+    })
+    console.log('LOOK HERE CAPITAL LETTERS', usersPosts)
+    res.render('profile', {
+        posts: usersPosts
+    });
 });
 
 module.exports = router;
