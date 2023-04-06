@@ -9,22 +9,35 @@
 </head>
 
 <body>
-  <header>
+  <header class="'hero">
     <h1>Welcome to Tech Blog</h1>
-  </header>
-  <nav>
-    <a href="/">Home</a>
+  <nav class='nav'>
+    <ul>
+      <li>
+          <a href="/">Home</a>
+      </li>
     {{#if loggedIn}}
-    <button id="logout" class="btn-no-style">Logout</button>
+      <li>
+          <a href='/dashboard'>Dashboard</a>
+      </li>
+      <li>
+          <button id="logout" class="btn-no-style">Logout</button>
+      </li>
     {{else}}
-    <a href="/login">Login</a>
+      <li>
+          <a href="/login">Login</a>
+      </li>
     {{/if}}
+    </ul>
   </nav>
+  </header>
   <main>
     <div class="home">
       {{{body}}}
     </div>
   </main>
+    {{#if loggedIn}}
+    <script src="/js/logout.js"></script>
+    {{/if}}
 </body>
-
 </html>
