@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
     })
     .then(dbPostData => {
         const posts = dbPostData.map(post => post.get({ plain: true }));
-        res.render('example', {
+        res.render('dashboard', {
             posts, 
             loggedIn: req.session.loggedIn
         });
@@ -41,11 +41,16 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 
-router.get('/profile/:id', async (req, res) => {
-    const usersPosts = await Post.findAll({
-        where: { user_id: (req.params.id) }
+
+router.get('/post/:id', (req, res) => {
+    Post.findOne({
+        where: { user_id: (req.params.id) },
+        attributes: [
+            'id',
+            'post_title',
+            'post_body',
+        ]
     })
-    console.log('LOOK HERE CAPITAL LETTERS', usersPosts)
     res.render('profile', {
         posts: usersPosts
     });

@@ -1,4 +1,4 @@
-const logOutFormHandler = async (event) => {
+const logout = async (event) => {
     const response = await fetch('/api/users/logout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }

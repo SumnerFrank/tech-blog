@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const withAuth = require('../../utils/auth');
-const { Comment, Post, User } = require('../../models');
+const { Comment } = require('../../models');
 
 // gets all comments
 router.get('/', (req, res) => {
@@ -13,28 +13,6 @@ router.get('/', (req, res) => {
         ]
     })
     .then(dbCommentData => res.json(dbCommentData))
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err)
-    });
-});
-
-// gets individual comments
-router.get('/:id', (req, res) => {
-    Comment.findOne({
-        attributes: [
-            'id', 
-            'comment_body', 
-            'post_id', 
-            'user_id'
-        ]
-    })
-    .then(dbCommentData => {
-        if (!dbCommentData) {
-            res.status(404).json({ message: 'Comment ID Not Found.' });
-            return;
-        }
-    })
     .catch(err => {
         console.log(err);
         res.status(500).json(err)
@@ -57,5 +35,21 @@ router.post('/', withAuth, (req, res) => {
     }
 });
 
+// deletes an existing comment
+router.delete('/', withAuth, (req, res) => {
+    Comment.destroy({
+        where: { id: req.params.id }
+    })
+    .then(dbpostData => {
+        if(!dbpostData) {
+            res.status(404).json({ message: 'No post with this ID'});
+            return;
+        };
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    })
+});
 
 module.exports = router;
