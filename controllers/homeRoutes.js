@@ -67,7 +67,11 @@ router.get('/profile', async (req, res) => {
         where: { user_id: req.session.user_id },
     })
     console.log('POST DATA', postData)
-    res.render('profile', { posts: postData });
+    
+    res.render('profile', { 
+        posts: postData,
+        name: req.session.name
+     });
 });
 
 module.exports = router;
