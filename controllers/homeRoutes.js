@@ -42,8 +42,8 @@ router.get('/login', (req, res) => {
 });
 
 
-router.get('/post/:id', (req, res) => {
-    Post.findOne({
+router.get('/post/:id', async (req, res) => {
+    const usersPosts = await Post.findOne({
         where: { user_id: (req.params.id) },
         attributes: [
             'id',
@@ -54,6 +54,20 @@ router.get('/post/:id', (req, res) => {
     res.render('profile', {
         posts: usersPosts
     });
+});
+
+router.get('/profile', async (req, res) => {
+    if (!req.session.loggedIn) {
+        res.redirect('/');
+        return;
+    }
+    console.log('REQ DOT SESSION', req.session);
+    // create variable for all posts by this user
+    const postData = await Post.findAll({
+        where: { user_id: req.session.user_id },
+    })
+    console.log('POST DATA', postData)
+    res.render('profile', { posts: postData });
 });
 
 module.exports = router;

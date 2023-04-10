@@ -94,8 +94,9 @@ router.delete('/:id', (req, res) => {
 // Logs user in
 router.post('/login', async (req, res) => {
     try {
+      console.log('REQ DOT BODY', req.body)
       const userData = await User.findOne({ where: { email: req.body.email } });
-  
+      console.log('THIS IS USER DATA', userData);
       if (!userData) {
         res
           .status(400)
@@ -115,7 +116,7 @@ router.post('/login', async (req, res) => {
       req.session.save(() => {
         req.session.user_id = userData.id;
         req.session.name = userData.name;
-        req.session.logged_in = true;
+        req.session.loggedIn = true;
         
         res.json({ user: userData, message: 'You are now logged in!' });
       });
